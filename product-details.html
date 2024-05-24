@@ -221,8 +221,8 @@
                               </ul>
                               <form action="checkout.html" method="get">
 
-                                 <input type="hidden" name="price" id="price" value="">
-                                 <input type="hidden" name="item-name" id="item-name" value="">
+                                 <input type="hidden" name="amount" id="amount" value="">
+                                 <input type="hidden" name="item" id="item" value="">
 
 
                                  <button class="m-btn m-btn-2 w-100 mb-20">
@@ -241,16 +241,16 @@
                         const urlParams = new URLSearchParams(window.location.search);
 
                         // Get the price
-                        const price = urlParams.get('price');
+                        const price = urlParams.get('amount');
 
                         // Get the product name and decode it
-                        const productName = decodeURIComponent(urlParams.get('product_name'));
+                        const productName = decodeURIComponent(urlParams.get('item'));
 
                         // Select the HTML elements
                         const priceElement = document.querySelector('.product__proprietor-price span span');
                         const productNameElement = document.querySelector('.product__proprietor-text p span');
-                        const priceInputElement = document.querySelector('#price');
-                        const itemNameInputElement = document.querySelector('#item-name');
+                        const priceInputElement = document.querySelector('#amount');
+                        const itemNameInputElement = document.querySelector('#item');
 
                         // Update the HTML content with a dollar sign in front of the price
                         priceElement.textContent = `$${price}`;

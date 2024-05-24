@@ -22,6 +22,10 @@
       <link rel="stylesheet" href="assets/css/imagetooltip.min.css">
       <link rel="stylesheet" href="assets/css/default.css">
       <link rel="stylesheet" href="assets/css/style.css">
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
    </head>
    <body>
       <!--[if lte IE 9]>
@@ -195,23 +199,18 @@
                               </div>
                            </div>
                            <div class="product__proprietor-body fix">
-                                <form>
 
-                                    <label for="name">Enter your name</label>
-                                    <input type="text" class="form-control" name="name" id="name">
-                                    <br>
-                                    <label for="address">Enter your address</label>
-                                    <input type="text" class="form-control" name="address" id="address">
-                                    <br>
+                                <form method="post">
+
                                     <label for="email">Enter your email</label>
-                                    <input type="email" class="form-control" name="email" id="email">
+                                    <input type="email" class="form-control" name="email" id="email" value="storemail@demo.com">
                                     <br>
                                     <hr>
 
-                                    <input type="hidden" name="price" id="price" value="">
-                                    <input type="hidden" name="item-name" id="item-name" value="">
+                                    <input type="hidden" name="amount" id="amount">
+                                    <input type="hidden" name="item" id="item">
 
-                                    <button class="m-btn m-btn-2 w-100 mb-20"> proceed to payment | <span class="price-tag"></span></button>
+                                    <button id="processing" type="submit" class="m-btn m-btn-2 w-100 mb-20"> proceed to payment | <span class="price-tag"></span></button>
 
                                     <div class="text-center">
                                         <a href="index.html">cancel transaction</a>
@@ -224,7 +223,7 @@
                                     const urlParams = new URLSearchParams(window.location.search);
 
                                     // Get the price
-                                    const price = urlParams.get('price');
+                                    const price = urlParams.get('amount');
 
                                     // Select the HTML elements
                                     const priceElement = document.querySelector('.price-tag');
@@ -233,16 +232,78 @@
                                     priceElement.textContent = `$${price}`;
 
                                     // Update the hidden input field
-                                    const priceInput = document.querySelector('#price');
+                                    const priceInput = document.querySelector('#amount');
                                     priceInput.value = price;
 
                                     // Get the item name
-                                    const itemName = urlParams.get('item-name');
+                                    const itemName = urlParams.get('item');
 
                                     // Update the hidden input field
-                                    const itemNameInput = document.querySelector('#item-name');
+                                    const itemNameInput = document.querySelector('#item');
                                     itemNameInput.value = itemName;
+
+                                    // Get the product name and decode it
+                                    const productName = decodeURIComponent(urlParams.get('item'));
+
+                                    // Select the HTML elements
+                                    const productNameElement = document.querySelector('#item');
+
+                                    // Update the value of the item-name input element with the product name
+                                    productNameElement.value = productName;
+
+                                    // Get the form element
+                                    const form = document.querySelector('form');
+
+                                    // Listen for the form submission
+                                    form.addEventListener('submit', function(event) {
+                                        // Prevent the form from being submitted normally
+                                        event.preventDefault();
+
+
+                                        // Change the button text to "Processing..."
+                                        const processingButton = document.querySelector('#processing');
+                                        const originalButtonText = processingButton.textContent;
+                                        processingButton.textContent = 'Processing...';
+
+                                        // Create an object to hold the form-data
+                                        const formData = {
+                                            amount: priceInput.value,
+                                            email: document.querySelector('#email').value,
+                                            item: itemNameInput.value
+                                        };
+
+                                        // Send the form-data
+                                        fetch('http://127.0.0.1:8000/api/checkout/', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'BITWADE-API-KEY': 'KQ-nMjVPgpUig1Nvy6TRXstG1W61Jkxw'
+                                            },
+                                            body: JSON.stringify(formData)
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            console.log(data);
+                                            // If the payment was successful, redirect to the transaction URL
+                                            if (data.status === true) {
+                                                window.location.href = 'http://' + data.transaction_url;
+                                            }
+
+                                            // Change the button text back to the original text
+                                            processingButton.textContent = originalButtonText;
+
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            // Change the button text back to the original text
+                                            processingButton.textContent = originalButtonText;
+                                        });
+                                    });
+
+
                                 </script>
+
+
 
                            </div>
                         </div>
