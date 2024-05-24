@@ -176,6 +176,7 @@
                   <div class="col"></div>
 
                   <div class="col-md-6">
+                     
                      <div class="product__details-sidebar ml-30">
                         <div class="product__proprietor white-bg mb-30">
                            <div class="product__proprietor-head mb-25">
@@ -185,83 +186,67 @@
                                        <img src="assets/img/store-checkout.png" alt="">
                                     </div>
                                     <div class="product__proprietor-name">
-                                       <h5><a href="#">Your cart</a></h5>
+                                       <h5><a href="#">Please enter your delivery details</a></h5>
                                     </div>
                                  </div>
                                  <div class="product__proprietor-price">
                                     <span class="d-flex align-items-start"><span></span></span>
                                  </div>
                               </div>
-                              <div class="product__proprietor-text">
-                                 <p>Item: <span>Jeffrey arse over tit give us a bell old posh morish wellies cheeky.</span></p>
-                              </div>
                            </div>
                            <div class="product__proprietor-body fix">
-                              <ul class="mb-10 fix">
-                                 <li>
-                                    <h6>Quanty:</h6>
-                                    <span>10</span>
-                                 </li>
-                                 <li>
-                                    <h6>Released On:</h6>
-                                    <span>16 February 2021</span>
-                                 </li>
-                                 <li>
-                                    <h6>Version:</h6>
-                                    <span>1.0</span>
-                                 </li>
-                                 <li>
-                                    <h6>Compatibility:</h6>
-                                    <span>Elementor</span>
-                                 </li>
-                                 <li>
-                                    <h6>Framework:</h6>
-                                    <span>Redux:</span>
-                                 </li>
-                              </ul>
-                              <form action="checkout.html" method="get">
+                                <form>
 
-                                 <input type="hidden" name="price" id="price" value="">
-                                 <input type="hidden" name="item-name" id="item-name" value="">
+                                    <label for="name">Enter your name</label>
+                                    <input type="text" class="form-control" name="name" id="name">
+                                    <br>
+                                    <label for="address">Enter your address</label>
+                                    <input type="text" class="form-control" name="address" id="address">
+                                    <br>
+                                    <label for="email">Enter your email</label>
+                                    <input type="email" class="form-control" name="email" id="email">
+                                    <br>
+                                    <hr>
 
+                                    <input type="hidden" name="price" id="price" value="">
+                                    <input type="hidden" name="item-name" id="item-name" value="">
 
-                                 <button class="m-btn m-btn-2 w-100 mb-20">
-                                    <!-- <span class="item-amount"></span> -->
-                                    checkout
-                                 </button>
-                              </form>
+                                    <button class="m-btn m-btn-2 w-100 mb-20"> proceed to payment | <span class="price-tag"></span></button>
+
+                                    <div class="text-center">
+                                        <a href="index.html">cancel transaction</a>
+                                    </div>
+                                    
+                                </form>
+
+                                <script>
+                                    // Parse the URL
+                                    const urlParams = new URLSearchParams(window.location.search);
+
+                                    // Get the price
+                                    const price = urlParams.get('price');
+
+                                    // Select the HTML elements
+                                    const priceElement = document.querySelector('.price-tag');
+
+                                    // Update the HTML content with a dollar sign in front of the price
+                                    priceElement.textContent = `$${price}`;
+
+                                    // Update the hidden input field
+                                    const priceInput = document.querySelector('#price');
+                                    priceInput.value = price;
+
+                                    // Get the item name
+                                    const itemName = urlParams.get('item-name');
+
+                                    // Update the hidden input field
+                                    const itemNameInput = document.querySelector('#item-name');
+                                    itemNameInput.value = itemName;
+                                </script>
+
                            </div>
                         </div>
-
                      </div>
-
-
-                     <script>
-                        // Parse the URL
-                        const urlParams = new URLSearchParams(window.location.search);
-
-                        // Get the price
-                        const price = urlParams.get('price');
-
-                        // Get the product name and decode it
-                        const productName = decodeURIComponent(urlParams.get('product_name'));
-
-                        // Select the HTML elements
-                        const priceElement = document.querySelector('.product__proprietor-price span span');
-                        const productNameElement = document.querySelector('.product__proprietor-text p span');
-                        const priceInputElement = document.querySelector('#price');
-                        const itemNameInputElement = document.querySelector('#item-name');
-
-                        // Update the HTML content with a dollar sign in front of the price
-                        priceElement.textContent = `$${price}`;
-
-                        // Update the HTML content with the product name
-                        productNameElement.textContent = productName;
-
-                        // Update the value of the price input element with the price
-                        priceInputElement.value = price;
-                        itemNameInputElement.value = productName;
-                     </script>
 
                   </div>
 
