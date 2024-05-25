@@ -273,7 +273,7 @@
                                         };
 
                                         // Send the form-data
-                                        fetch('http://127.0.0.1:8000/api/checkout/', {
+                                        fetch(window.location.origin + '/api/checkout/', {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/json',
