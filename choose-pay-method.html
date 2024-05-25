@@ -23,10 +23,6 @@
     <link rel="stylesheet" href="assets/css/imagetooltip.min.css">
     <link rel="stylesheet" href="assets/css/default.css">
     <link rel="stylesheet" href="assets/css/style.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
 </head>
 
 <body>
@@ -182,7 +178,6 @@
                     <div class="col"></div>
 
                     <div class="col-md-6">
-
                         <div class="product__details-sidebar ml-30">
                             <div class="product__proprietor white-bg mb-30">
                                 <div class="product__proprietor-head mb-25">
@@ -192,133 +187,64 @@
                                                 <img src="assets/img/store-checkout.png" alt="">
                                             </div>
                                             <div class="product__proprietor-name">
-                                                <h5><a href="#">Please enter your delivery details</a></h5>
+                                                <h5><a href="#">Select Payment method</a></h5>
                                             </div>
                                         </div>
+                                        <div class="product__proprietor-price">
+                                            <span class="d-flex align-items-start"><span></span></span>
+                                        </div>
                                     </div>
+                                    <!-- <div class="product__proprietor-text">
+                                        <p>Item: <span>Jeffrey arse over tit give us a bell old posh morish wellies cheeky.</span></p>
+                                    </div> -->
                                 </div>
                                 <div class="product__proprietor-body fix">
 
-                                    <div class="text-center">
-                                        <h6>Amount: <span class="price-tag"></span></h6>
-                                    </div>
-                                    <hr>
-                                    <br>
-                                    <form method="post">
 
-                                        <label for="email">Enter your email</label>
-                                        <input type="email" class="form-control" name="email" id="email"
-                                            value="storemail@demo.com">
-                                        <br>
-                                        <hr>
+                                    <form action="checkout.html" method="get">
 
-                                        <input type="hidden" name="amount" id="amount">
-                                        <input type="hidden" name="item" id="item">
+                                        <input type="hidden" name="amount" id="amount" value="">
+                                        <input type="hidden" name="item" id="item" value="">
 
-                                        <button id="processing" type="submit" class="m-btn m-btn-2 w-100 mb-20"> pay with crypto </button>
-
-                                        <!-- <br>
-                                        <button disabled class=" btn-primary m-btn-2 w-100 mb-20"> pay with paystack </button> -->
-
-                                        <div class="text-center">
-                                            <a href="index.html">cancel transaction</a>
-                                        </div>
+                                        <button class="m-btn m-btn-2 w-100 mb-20">checkout</button>
 
                                     </form>
-
-                                    <script>
-                                        // Parse the URL
-                                        const urlParams = new URLSearchParams(window.location.search);
-
-                                        // Get the price
-                                        const price = urlParams.get('amount');
-
-                                        // Select the HTML elements
-                                        const priceElement = document.querySelector('.price-tag');
-
-                                        // Update the HTML content with a dollar sign in front of the price
-                                        priceElement.textContent = `$${price}`;
-
-                                        // Update the hidden input field
-                                        const priceInput = document.querySelector('#amount');
-                                        priceInput.value = price;
-
-                                        // Get the item name
-                                        const itemName = urlParams.get('item');
-
-                                        // Update the hidden input field
-                                        const itemNameInput = document.querySelector('#item');
-                                        itemNameInput.value = itemName;
-
-                                        // Get the product name and decode it
-                                        const productName = decodeURIComponent(urlParams.get('item'));
-
-                                        // Select the HTML elements
-                                        const productNameElement = document.querySelector('#item');
-
-                                        // Update the value of the item-name input element with the product name
-                                        productNameElement.value = productName;
-
-                                        // Get the form element
-                                        const form = document.querySelector('form');
-
-                                        // Listen for the form submission
-                                        form.addEventListener('submit', function (event) {
-                                            // Prevent the form from being submitted normally
-                                            event.preventDefault();
-
-
-                                            // Change the button text to "Processing..."
-                                            const processingButton = document.querySelector('#processing');
-                                            const originalButtonText = processingButton.textContent;
-                                            processingButton.textContent = 'Processing...';
-
-                                            // Create an object to hold the form-data
-                                            const formData = {
-                                                amount: priceInput.value,
-                                                email: document.querySelector('#email').value,
-                                                item: itemNameInput.value
-                                            };
-
-                                            // Send the form-data
-                                            fetch('https://bitwade.onrender.com/api/checkout/', {
-                                                    method: 'POST',
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'BITWADE-API-KEY': 'KQ-nMjVPgpUig1Nvy6TRXstG1W61Jkxw'
-                                                    },
-                                                    body: JSON.stringify(formData)
-                                                })
-                                                .then(response => response.json())
-                                                .then(data => {
-                                                    console.log(data);
-                                                    // If the payment was successful, redirect to the transaction URL
-                                                    if (data.status === true) {
-                                                        window.location.href = 'http://' + data.transaction_url;
-                                                    }
-
-                                                    // Change the button text back to the original text
-                                                    processingButton.textContent = originalButtonText;
-
-                                                })
-                                                .catch(error => {
-                                                    console.error('Error:', error);
-                                                    // Change the button text back to the original text
-                                                    processingButton.textContent = originalButtonText;
-                                                });
-                                        });
-                                    </script>
-
-
-
                                 </div>
                             </div>
+
                         </div>
+
+
+                        <script>
+                            // Parse the URL
+                            const urlParams = new URLSearchParams(window.location.search);
+
+                            // Get the price
+                            const price = urlParams.get('amount');
+
+                            // Get the product name and decode it
+                            const productName = decodeURIComponent(urlParams.get('item'));
+
+                            // Select the HTML elements
+                            const priceElement = document.querySelector('.product__proprietor-price span span');
+                            const productNameElement = document.querySelector('.product__proprietor-text p span');
+                            const priceInputElement = document.querySelector('#amount');
+                            const itemNameInputElement = document.querySelector('#item');
+
+                            // Update the HTML content with a dollar sign in front of the price
+                            priceElement.textContent = `$${price}`;
+
+                            // Update the HTML content with the product name
+                            productNameElement.textContent = productName;
+
+                            // Update the value of the price input element with the price
+                            priceInputElement.value = price;
+                            itemNameInputElement.value = productName;
+                        </script>
 
                     </div>
 
                     <div class="col"></div>
-
 
                 </div>
             </div>
