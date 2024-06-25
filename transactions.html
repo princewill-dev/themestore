@@ -127,8 +127,6 @@
     </header>
     <!-- header area end -->
 
-
-
     <!-- sidebar area start -->
     <div class="sidebar__area">
         <div class="sidebar__wrapper">
@@ -145,17 +143,6 @@
                     </a>
                 </div>
                 <div class="mobile-menu"></div>
-                <!-- <div class="sidebar__action mt-330">
-                  <div class="sidebar__login mt-15">
-                     <a href="#"><i class="far fa-unlock"></i> Log In</a>
-                  </div>
-                  <div class="sidebar__cart mt-20">
-                     <a href="javascript:void(0);" class="cart-toggle-btn">
-                        <i class="far fa-shopping-cart"></i>
-                        <span>2</span>
-                     </a>
-                  </div>
-               </div> -->
             </div>
         </div>
     </div>
@@ -163,10 +150,7 @@
     <div class="body-overlay"></div>
     <!-- sidebar area end -->
 
-
     <main>
-
-
 
         <section class="product__area pt-105 pb-110 grey-bg-2pb-115">
             <div class="container">
@@ -178,141 +162,35 @@
 
                         <div class="product__details-sidebar ml-30">
                             <div class="product__proprietor white-bg mb-30">
-                                <div class="product__proprietor-head mb-25">
-                                    <div class="product__prorietor-info mb-20 d-flex justify-content-between">
-                                        <div class="product__proprietor-avater d-flex align-items-center">
-                                            <div class="product__proprietor-thumb">
-                                                <img src="assets/img/store-checkout.png" alt="">
-                                            </div>
-                                            <div class="product__proprietor-name">
-                                                <h5><a href="#">Please enter your delivery details</a></h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                                 <div class="product__proprietor-body fix">
-
                                     <div class="text-center">
-                                        <h6>Amount: <span class="price-tag"></span></h6>
-                                    </div>
-                                    <hr>
-                                    <br>
-                                    <form method="post">
-
-                                        <label for="email">Enter your email</label>
-                                        <input type="email" class="form-control" name="email" id="email" value="">
-                                        <br>
+                                        <h5><a href="#">Transaction: <span id="transaction_id"></span></a></h5>
+                                        <h6>Status: <span id="status"></span></h6>
                                         <hr>
-
-                                        <input type="hidden" name="amount" id="amount">
-                                        <input type="hidden" name="item" id="item">
-                                        <input type="hidden" name="success_url" id="success_url" value="http://127.0.0.1:5500/transactions.html">
-
-                                        <button id="processing" type="submit" class="m-btn m-btn-2 w-100 mb-20"> pay with crypto </button>
-
-                                        <div class="text-center">
-                                            <a href="index.html">cancel transaction</a>
-                                        </div>
-
-                                    </form>
-
-                                    <script>
-                                        // Parse the URL
-                                        const urlParams = new URLSearchParams(window.location.search);
-                                    
-                                        // Get the price
-                                        const price = urlParams.get('amount');
-                                    
-                                        // Select the HTML elements
-                                        const priceElement = document.querySelector('.price-tag');
-                                    
-                                        // Update the HTML content with a dollar sign in front of the price
-                                        priceElement.textContent = `$${price}`;
-                                    
-                                        // Update the hidden input field
-                                        const priceInput = document.querySelector('#amount');
-                                        priceInput.value = price;
-                                    
-                                        // Get the item name
-                                        const itemName = urlParams.get('item');
-                                    
-                                        // Update the hidden input field
-                                        const itemNameInput = document.querySelector('#item');
-                                        itemNameInput.value = itemName;
-                                    
-                                        // Get the product name and decode it
-                                        const productName = decodeURIComponent(urlParams.get('item'));
-                                    
-                                        // Select the HTML elements
-                                        const productNameElement = document.querySelector('#item');
-                                    
-                                        // Update the value of the item-name input element with the product name
-                                        productNameElement.value = productName;
-                                    
-                                        // Get the form element
-                                        const form = document.querySelector('form');
-                                    
-                                        // Listen for the form submission
-                                        form.addEventListener('submit', function (event) {
-                                            // Prevent the form from being submitted normally
-                                            event.preventDefault();
-                                    
-                                            // Change the button text to "Processing..."
-                                            const processingButton = document.querySelector('#processing');
-                                            const originalButtonText = processingButton.textContent;
-                                            processingButton.textContent = 'Processing...';
-                                    
-                                            // Create an object to hold the form-data
-                                            const formData = {
-                                                amount: priceInput.value,
-                                                email: document.querySelector('#email').value,
-                                                item: itemNameInput.value,
-                                                success_url: document.querySelector('#success_url').value,
-                                            };
-                                    
-                                            // Send the form-data
-                                            fetch('https://bixmerchant.com/api/v1/checkout/', {
-                                                    method: 'POST',
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'BIXMERCHANT-API-KEY': 'OyQh8LawR0VoNuq9qNrzKYNmKFdDJSc3'
-                                                    },
-                                                    body: JSON.stringify(formData)
-                                                })
-                                                .then(response => {
-                                                    // Check if the response is in JSON format
-                                                    if (!response.ok) {
-                                                        throw new Error('Network response was not ok');
-                                                    }
-                                                    return response.json();
-                                                })
-                                                .then(data => {
-                                                    console.log(data);
-                                                    // If the payment was successful, redirect to the transaction URL
-                                                    if (data.status === true) {
-                                                        window.location.href = 'http://' + data.transaction_url;
-                                                    } else {
-                                                        console.error('Payment failed:', data);
-                                                        alert('Payment failed: ' + data.message);
-                                                    }
-                                    
-                                                    // Change the button text back to the original text
-                                                    processingButton.textContent = originalButtonText;
-                                    
-                                                })
-                                                .catch(error => {
-                                                    console.error('Error:', error);
-                                                    alert('An error occurred: ' + error.message);
-                                                    // Change the button text back to the original text
-                                                    processingButton.textContent = originalButtonText;
-                                                });
-                                        });
-                                    </script>
-                                    
-
+                                        <a href="./" class="m-btn m-btn-2 w-100 mb-20"> Home </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    
+                        <script>
+                            // Function to parse URL parameters
+                            function getUrlParameter(name) {
+                                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                                var results = regex.exec(location.search);
+                                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+                            }
+                    
+                            // Get transaction_id and status from the URL
+                            var transactionId = getUrlParameter('transaction_id');
+                            var status = getUrlParameter('status');
+                    
+                            // Set the inner text of the HTML elements
+                            document.getElementById('transaction_id').innerText = transactionId;
+                            document.getElementById('status').innerText = status;
+                        </script>
 
                     </div>
 
