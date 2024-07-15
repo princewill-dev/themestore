@@ -200,7 +200,7 @@
                                     <form method="post">
 
                                         <label for="email">Enter your email</label>
-                                        <input type="email" class="form-control" name="email" id="email" value="">
+                                        <input type="email" class="form-control" name="email" id="email" value="johndoe@test-mail.com">
                                         <br>
                                         <hr>
 
@@ -272,40 +272,41 @@
                                     
                                             // Send the form-data
                                             fetch('https://bixmerchant.com/api/v1/checkout/', {
-                                                    method: 'POST',
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'BIXMERCHANT-API-KEY': 'OyQh8LawR0VoNuq9qNrzKYNmKFdDJSc3'
-                                                    },
-                                                    body: JSON.stringify(formData)
-                                                })
-                                                .then(response => {
-                                                    // Check if the response is in JSON format
-                                                    if (!response.ok) {
-                                                        throw new Error('Network response was not ok');
-                                                    }
-                                                    return response.json();
-                                                })
-                                                .then(data => {
-                                                    console.log(data);
-                                                    // If the payment was successful, redirect to the transaction URL
-                                                    if (data.status === true) {
-                                                        window.location.href = 'http://' + data.transaction_url;
-                                                    } else {
-                                                        console.error('Payment failed:', data);
-                                                        alert('Payment failed: ' + data.message);
-                                                    }
-                                    
-                                                    // Change the button text back to the original text
-                                                    processingButton.textContent = originalButtonText;
-                                    
-                                                })
-                                                .catch(error => {
-                                                    console.error('Error:', error);
-                                                    alert('An error occurred: ' + error.message);
-                                                    // Change the button text back to the original text
-                                                    processingButton.textContent = originalButtonText;
-                                                });
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'BIXMERCHANT-API-KEY': 'BMX_API_9E-4UG_dlvF09bT4fu-5_KcwPRA'
+                                                },
+                                                body: JSON.stringify(formData)
+                                            })
+                                            .then(response => {
+                                                if (!response.ok) {
+                                                    throw new Error('Network response was not ok');
+                                                }
+                                                return response.json();
+                                            })
+                                            .then(data => {
+                                                console.log(data);
+                                                // Check if the status is 'pending' instead of true
+                                                if (data.status === 'pending') {
+                                                    // Redirect to the transaction URL without prepending 'http://'
+                                                    window.location.href = data.transaction_url;
+                                                } else {
+                                                    console.error('Payment failed:', data);
+                                                    alert('Payment failed: ' + data.message);
+                                                }
+
+                                                // Change the button text back to the original text
+                                                processingButton.textContent = originalButtonText;
+                                            })
+                                            .catch(error => {
+                                                console.error('Error:', error);
+                                                alert('An error occurred: ' + error.message);
+                                                // Change the button text back to the original text
+                                                processingButton.textContent = originalButtonText;
+                                            });
+
+                                            
                                         });
                                     </script>
                                     
