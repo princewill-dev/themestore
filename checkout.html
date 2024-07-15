@@ -289,8 +289,13 @@
                                                 console.log(data);
                                                 // Check if the status is 'pending' instead of true
                                                 if (data.status === 'pending') {
-                                                    // Redirect to the transaction URL without prepending 'http://'
-                                                    window.location.href = data.transaction_url;
+                                                    // Ensure the URL is absolute by adding the protocol if it's missing
+                                                    let redirectUrl = data.transaction_url;
+                                                    if (!redirectUrl.startsWith('http://') && !redirectUrl.startsWith('https://')) {
+                                                        redirectUrl = 'https://' + redirectUrl;
+                                                    }
+                                                    // Redirect to the transaction URL
+                                                    window.location.href = redirectUrl;
                                                 } else {
                                                     console.error('Payment failed:', data);
                                                     alert('Payment failed: ' + data.message);
@@ -306,7 +311,7 @@
                                                 processingButton.textContent = originalButtonText;
                                             });
 
-                                            
+
                                         });
                                     </script>
                                     
